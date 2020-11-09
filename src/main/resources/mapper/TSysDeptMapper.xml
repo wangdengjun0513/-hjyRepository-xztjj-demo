@@ -192,7 +192,7 @@
         insert  INTO
         re_dept_user(pk_deptUser_id,fk_dept_id,fk_user_id)
         values
-        <foreach collection="idList" item="item" separator="">
+        <foreach collection="idList" item="item" index="index" separator=",">
             (
             #{item.pk_deptUser_id, jdbcType=VARCHAR},
             #{item.fk_dept_id, jdbcType=VARCHAR},
