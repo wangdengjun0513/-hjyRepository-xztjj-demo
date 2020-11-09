@@ -1,5 +1,6 @@
 package com.hjy.system.dao;
 
+import com.hjy.system.entity.ReUserRole;
 import com.hjy.system.entity.TSysUser;
 import org.apache.ibatis.annotations.Param;
 
@@ -81,4 +82,6 @@ public interface TSysUserMapper {
     List<TSysUser> selectAllPage(TSysUser user);
 
     List<String> selectAllUsername();
+
+    int addUserRoleByUserRole(ReUserRole userRole);
 }

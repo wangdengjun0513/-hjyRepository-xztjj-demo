@@ -137,18 +137,9 @@ public class TSysDeptController {
      */
     @RequiresPermissions({"dept:addUser"})
     @PostMapping("/system/dept/addUser")
-    public CommonResult systemRoleAddUser(@RequestBody String parm) throws FebsException{
-        JSONObject jsonObject = JSON.parseObject(parm);
-        String fk_dept_id=String.valueOf(jsonObject.get("fk_dept_id"));
-        JSONArray jsonArray = jsonObject.getJSONArray("ids");
-        String userIdsStr = jsonArray.toString();
-        List<String> idList = JSONArray.parseArray(userIdsStr,String.class);
+    public CommonResult systemRoleAddUser(@RequestBody String param) throws FebsException{
         try {
-            //删除原有的部门及用户
-            tSysDeptService.deleteDeptUserByDeptId(fk_dept_id);
-            //添加部门用户
-            tSysDeptService.addDeptUserByList(fk_dept_id,idList);
-            return new CommonResult(200,"success","部门添加用户成功!",null);
+            return tSysDeptService.addUser(param);
         } catch (Exception e) {
             String message = "部门添加用户失败";
             log.error(message, e);

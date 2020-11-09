@@ -1,5 +1,9 @@
 package com.hjy.system.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.hjy.common.domin.CommonResult;
 import com.hjy.common.utils.IDUtils;
 import com.hjy.system.dao.TSysDeptMapper;
 import com.hjy.system.entity.ReDeptUser;
@@ -146,5 +150,21 @@ public class TSysDeptServiceImpl implements TSysDeptService {
     @Override
     public String selectDeptIdByUserId(String idStr) {
         return tSysDeptMapper.selectDeptIdByUserId(idStr);
+    }
+
+    @Override
+    public CommonResult addUser(String param) {
+        JSONObject jsonObject = JSON.parseObject(param);
+        String fk_dept_id=String.valueOf(jsonObject.get("fk_dept_id"));
+        //删除原有的部门及用户
+        tSysDeptMapper.deleteDeptUserByDeptId(fk_dept_id);
+        JSONArray jsonArray = jsonObject.getJSONArray("ids");
+        if(jsonArray != null){
+            String userIdsStr = jsonArray.toString();
+            List<String> idList = JSONArray.parseArray(userIdsStr,String.class);
+            //添加部门用户
+            this.addDeptUserByList(fk_dept_id,idList);
+        }
+        return new CommonResult(200,"success","部门添加用户成功!",null);
     }
 }

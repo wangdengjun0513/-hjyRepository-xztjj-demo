@@ -76,7 +76,7 @@ public interface TSysUserService {
     /**
      * 添加用户且添加角色
      */
-    Map<String,Object> insertUserAndRole(String param);
+    Map<String,Object> insertUserAndRoleAndDept(String param);
     /**
      * 修改用户且修改角色、部门
      */
