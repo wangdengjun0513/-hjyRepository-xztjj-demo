@@ -161,7 +161,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById" parameterType="com.hjy.system.entity.TSysDept">
-        delete from t_sys_dept where "pk_dept_id" = #{pkDeptId,jdbcType=VARCHAR}
+        delete from t_sys_dept where pk_dept_id = #{pkDeptId,jdbcType=VARCHAR}
     </delete>
     <!--查询所有行数据-->
     <select id="selectAll" resultType="com.hjy.system.entity.TSysDept">

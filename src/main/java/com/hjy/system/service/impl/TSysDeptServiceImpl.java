@@ -68,7 +68,6 @@ public class TSysDeptServiceImpl implements TSysDeptService {
      * @param pkDeptId 主键
      * @return 是否成功
      */
-    @Transactional()
     @Override
     public int deleteById(String pkDeptId){
         return tSysDeptMapper.deleteById(pkDeptId);
