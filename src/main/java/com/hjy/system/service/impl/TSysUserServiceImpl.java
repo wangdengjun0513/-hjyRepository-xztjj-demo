@@ -12,8 +12,10 @@ import com.hjy.common.utils.PasswordEncryptUtils;
 import com.hjy.common.utils.page.PageRequest;
 import com.hjy.common.utils.page.PageResult;
 import com.hjy.common.utils.page.PageUtils;
+import com.hjy.system.dao.TSysDeptMapper;
 import com.hjy.system.dao.TSysRoleMapper;
 import com.hjy.system.entity.ActiveUser;
+import com.hjy.system.entity.ReDeptUser;
 import com.hjy.system.entity.ReUserRole;
 import com.hjy.system.dao.TSysUserMapper;
 import com.hjy.system.entity.TSysUser;
@@ -45,7 +47,7 @@ public class TSysUserServiceImpl implements TSysUserService {
     @Autowired
     private TSysDeptService tSysDeptService;
     @Autowired
-    private TSysRoleService tSysRoleService;
+    private TSysDeptMapper tSysDeptMapper;
     /**
      * 通过ID查询单条数据
      * @return 实例对象
@@ -145,12 +147,8 @@ public class TSysUserServiceImpl implements TSysUserService {
         if(pageSizeStr != null){
             pageSize = Integer.parseInt(pageSizeStr);
         }
-//        PageRequest pageRequest = new PageRequest();
-//        pageRequest.setPageNum(pageNum);
-//        pageRequest.setPageSize(pageSize);
         PageHelper.startPage(pageNum, pageSize);
         List<TSysUser> users = tSysUserMapper.selectAllPage(user);
-        System.err.println(users);
         return PageUtils.getPageResult(new PageInfo<TSysUser>(users));
     }
 
@@ -180,7 +178,7 @@ public class TSysUserServiceImpl implements TSysUserService {
     }
 
     @Override
-    public Map<String,Object> insertUserAndRole(String param) {
+    public Map<String,Object> insertUserAndRoleAndDept(String param) {
         Map<String,Object> result = new HashMap<>();
         JSONObject json = JSON.parseObject(param);
         String idcard = JsonUtil.getStringParam(json,"idcard");
@@ -228,19 +226,19 @@ public class TSysUserServiceImpl implements TSysUserService {
             result.put("status","success");
             result.put("message","添加用户成功,但暂未分配角色，无法使用！");
         }else if(roleId == null && deptId != null) {
-            ObjectAsyncTask.addDeptUserByDeptUser(pkUserId,deptId);
+            this.addDeptUserByDeptUser(pkUserId,deptId);
             result.put("code",202);
             result.put("status","success");
             result.put("message","添加用户成功,分配部门成功，但暂未分配角色，无法使用！");
         }else if(roleId != null && deptId == null) {
-            ObjectAsyncTask.addUserRoleByUserRole(pkUserId,roleId);
+            this.addUserRoleByUserRole(pkUserId,roleId);
             result.put("code",203);
             result.put("status","success");
             result.put("message","添加用户与分配角色成功,暂未分配部门！");
         }
         else if(roleId != null && deptId != null) {
-            ObjectAsyncTask.addUserRoleByUserRole(pkUserId,roleId);
-            ObjectAsyncTask.addDeptUserByDeptUser(pkUserId,deptId);
+            this.addUserRoleByUserRole(pkUserId,roleId);
+            this.addDeptUserByDeptUser(pkUserId,deptId);
             result.put("code",200);
             result.put("status","success");
             result.put("message","添加用户、分配角色与分配部门成功！");
@@ -327,5 +325,20 @@ public class TSysUserServiceImpl implements TSysUserService {
         }else {
             return new CommonResult(444,"error","数据删除失败!",null);
         }
+    }
+
+    public int addDeptUserByDeptUser(String pkUserId, String deptId) {
+        ReDeptUser deptUser = new ReDeptUser();
+        deptUser.setPk_deptUser_id(IDUtils.getUUID());
+        deptUser.setFk_user_id(pkUserId);
+        deptUser.setFk_dept_id(deptId);
+        return tSysDeptMapper.addDeptUserByDeptUser(deptUser);
+    }
+    public int addUserRoleByUserRole(String pkUserId, String roleId) {
+        ReUserRole userRole = new ReUserRole();
+        userRole.setPk_userRole_id(IDUtils.getUUID());
+        userRole.setFk_user_id(pkUserId);
+        userRole.setFk_role_id(roleId);
+        return tSysUserMapper.addUserRoleByUserRole(userRole);
     }
 }

@@ -79,7 +79,7 @@ public interface TSysDeptService {
 
     String selectDeptIdByUserId(String idStr);
 
-//    CommonResult addUser(String parm);
+    CommonResult addUser(String param);
 //
-//    CommonResult deptDel(String parm);
+//    CommonResult deptDel(String param);
 }

@@ -53,7 +53,7 @@
             <if test="ip != null and ip != '' and ip != 'null'">
                 and ip = #{ip,jdbcType=VARCHAR}
             </if><if test="address != null and address != ''">
-            and address like '%${address}%'
+                and address like '%${address}%'
         </if>
         </where>
     </select>
@@ -257,4 +257,9 @@
     <select id="selectAllUsername" resultType="java.lang.String">
         select username from t_sys_user
     </select>
+    <!--No problem 添加用户角色    -->
+    <insert id="addUserRoleByUserRole" parameterType="com.hjy.system.entity.ReUserRole">
+       insert into re_user_role(pk_userRole_id,fk_user_id,fk_role_id)
+        values (#{pk_userRole_id},#{fk_user_id},#{fk_role_id})
+    </insert>
 </mapper>

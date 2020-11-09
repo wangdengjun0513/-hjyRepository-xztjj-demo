@@ -73,7 +73,7 @@ public class TSysUserController {
     public Map<String,Object> tSysUserAdd(@RequestBody String param) throws FebsException{
         try {
             //
-            Map<String,Object> result = tSysUserService.insertUserAndRole(param);
+            Map<String,Object> result = tSysUserService.insertUserAndRoleAndDept(param);
             return result;
         } catch (Exception e) {
             String message = "数据添加失败";
