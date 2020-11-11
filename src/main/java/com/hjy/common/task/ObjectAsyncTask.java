@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
-@Component
-@Async
+//@Component
+//@Async
 public class ObjectAsyncTask {
     @Autowired
     private TSysParamService tSysParamService;
