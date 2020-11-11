@@ -25,6 +25,10 @@
         select * from t_sys_user
         where pk_user_id = #{pkUserId,jdbcType=VARCHAR}
     </select>
+    <select id="selectByUsername" resultType="com.hjy.system.entity.TSysUser" parameterType="java.lang.String">
+        select * from t_sys_user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
     <!--No problem 通过实体作为筛选条件查询-->
     <select id="selectAllByEntity" resultType="com.hjy.system.entity.TSysUser" parameterType="com.hjy.system.entity.TSysUser">
         select * from t_sys_user
@@ -116,9 +120,6 @@
             </if>
             <if test="lastLoginDate != null">
                 #{lastLoginDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="fkDeptId != null and fkDeptId != ''">
-                #{fkDeptId,jdbcType=VARCHAR},
             </if>
             <if test="email != null and email != ''">
                 #{email,jdbcType=VARCHAR},

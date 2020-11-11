@@ -47,7 +47,7 @@ public class TSysUser implements Serializable {
      */
     private String tel;
     /**
-     * 启用状态
+     * 启用状态  1启用0禁用
      */
     private String enableStatus;
     /**

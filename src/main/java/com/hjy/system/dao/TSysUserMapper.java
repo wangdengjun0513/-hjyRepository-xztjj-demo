@@ -22,6 +22,8 @@ public interface TSysUserMapper {
      */
     TSysUser selectById(@Param("pkUserId") String pkUserId);
 
+    TSysUser selectByUsername(@Param("username") String username);
+
     /**
      * 新增数据
      *

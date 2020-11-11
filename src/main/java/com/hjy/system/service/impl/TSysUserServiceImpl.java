@@ -9,6 +9,7 @@ import com.hjy.common.task.ObjectAsyncTask;
 import com.hjy.common.utils.IDUtils;
 import com.hjy.common.utils.JsonUtil;
 import com.hjy.common.utils.PasswordEncryptUtils;
+import com.hjy.common.utils.StringUtil;
 import com.hjy.common.utils.page.PageRequest;
 import com.hjy.common.utils.page.PageResult;
 import com.hjy.common.utils.page.PageUtils;
@@ -24,6 +25,7 @@ import com.hjy.system.service.TSysRoleService;
 import com.hjy.system.service.TSysUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -48,12 +50,14 @@ public class TSysUserServiceImpl implements TSysUserService {
     private TSysDeptService tSysDeptService;
     @Autowired
     private TSysDeptMapper tSysDeptMapper;
+
     /**
      * 通过ID查询单条数据
+     *
      * @return 实例对象
      */
     @Override
-    public TSysUser selectById(String pkUserId) throws Exception{
+    public TSysUser selectById(String pkUserId) throws Exception {
         return this.tSysUserMapper.selectById(pkUserId);
     }
 
@@ -64,12 +68,12 @@ public class TSysUserServiceImpl implements TSysUserService {
      * @return 实例对象
      */
     @Override
-    public int insert(TSysUser tSysUser) throws Exception{
+    public int insert(TSysUser tSysUser) throws Exception {
         tSysUser.setPkUserId(IDUtils.currentTimeMillis());
         //加密
         //默认密码
         String password = "123456";
-        String passwordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(tSysUser.getUsername(),password);
+        String passwordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(tSysUser.getUsername(), password);
         tSysUser.setPassword(passwordMd5);
         tSysUser.setCreateTime(new Date());
         tSysUser.setModifyTime(new Date());
@@ -83,7 +87,7 @@ public class TSysUserServiceImpl implements TSysUserService {
      * @return 实例对象
      */
     @Override
-    public int updateById(TSysUser tSysUser) throws Exception{
+    public int updateById(TSysUser tSysUser) throws Exception {
         return tSysUserMapper.updateById(tSysUser);
     }
 
@@ -94,24 +98,27 @@ public class TSysUserServiceImpl implements TSysUserService {
      * @return 是否成功
      */
     @Override
-    public int deleteById(String pkUserId){
+    public int deleteById(String pkUserId) {
         return tSysUserMapper.deleteById(pkUserId);
     }
 
     /**
      * 查询多条数据
+     *
      * @return 对象列表
      */
     @Override
-    public List<TSysUser> selectAll() throws Exception{
+    public List<TSysUser> selectAll() throws Exception {
         return this.tSysUserMapper.selectAll();
     }
+
     /**
      * 通过实体查询多条数据
+     *
      * @return 对象列表
      */
     @Override
-    public List<TSysUser> selectAllByEntity(TSysUser tSysUser) throws Exception{
+    public List<TSysUser> selectAllByEntity(TSysUser tSysUser) throws Exception {
         return this.tSysUserMapper.selectAllByEntity(tSysUser);
     }
 
@@ -129,11 +136,11 @@ public class TSysUserServiceImpl implements TSysUserService {
     public PageResult selectAllPage(String param) {
         JSONObject json = JSON.parseObject(param);
         //实体数据
-        String pageNumStr = JsonUtil.getStringParam(json,"pageNum");
-        String pageSizeStr = JsonUtil.getStringParam(json,"pageSize");
-        String fullName = JsonUtil.getStringParam(json,"fullName");
-        String idcard = JsonUtil.getStringParam(json,"idcard");
-        String workPosition = JsonUtil.getStringParam(json,"workPosition");
+        String pageNumStr = JsonUtil.getStringParam(json, "pageNum");
+        String pageSizeStr = JsonUtil.getStringParam(json, "pageSize");
+        String fullName = JsonUtil.getStringParam(json, "fullName");
+        String idcard = JsonUtil.getStringParam(json, "idcard");
+        String workPosition = JsonUtil.getStringParam(json, "workPosition");
         TSysUser user = new TSysUser();
         user.setFullName(fullName);
         user.setIdcard(idcard);
@@ -141,10 +148,10 @@ public class TSysUserServiceImpl implements TSysUserService {
         //分页记录条数
         int pageNum = 1;
         int pageSize = 10;
-        if(pageNumStr != null){
+        if (pageNumStr != null) {
             pageNum = Integer.parseInt(pageNumStr);
         }
-        if(pageSizeStr != null){
+        if (pageSizeStr != null) {
             pageSize = Integer.parseInt(pageSizeStr);
         }
         PageHelper.startPage(pageNum, pageSize);
@@ -153,7 +160,7 @@ public class TSysUserServiceImpl implements TSysUserService {
     }
 
     @Override
-    public int updatePassword(String parm, ActiveUser activeUser) throws Exception{
+    public int updatePassword(String parm, ActiveUser activeUser) throws Exception {
         //用户名
         String username = activeUser.getUsername();
         //数据库旧密码
@@ -162,14 +169,14 @@ public class TSysUserServiceImpl implements TSysUserService {
         //输入的旧密码
         String inputOldPassword = String.valueOf(json.get("oldPassword"));
         //输入的旧密码加密
-        String inputOldPasswordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(username,inputOldPassword);
-        if(!inputOldPasswordMd5.equals(oldPasswordMd5)){
+        String inputOldPasswordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(username, inputOldPassword);
+        if (!inputOldPasswordMd5.equals(oldPasswordMd5)) {
             return 2;
         }
         //输入的新密码
         String inputNewPassword = String.valueOf(json.get("newPassword"));
         //输入的新密码加密
-        String inputNewPasswordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(username,inputNewPassword);
+        String inputNewPasswordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(username, inputNewPassword);
         TSysUser user = new TSysUser();
         user.setPkUserId(activeUser.getUserId());
         user.setPassword(inputNewPasswordMd5);
@@ -178,70 +185,74 @@ public class TSysUserServiceImpl implements TSysUserService {
     }
 
     @Override
-    public Map<String,Object> insertUserAndRoleAndDept(String param) {
-        Map<String,Object> result = new HashMap<>();
+    @Transactional()
+    public Map<String, Object> insertUserAndRoleAndDept(String param) {
+        Map<String, Object> result = new HashMap<>();
         JSONObject json = JSON.parseObject(param);
-        String idcard = JsonUtil.getStringParam(json,"idcard");
-        String username = JsonUtil.getStringParam(json,"username");
-        List<String> usernameList = tSysUserMapper.selectAllUsername();
-        if(usernameList.contains(username)){
-            result.put("code",445);
-            result.put("status","error");
-            result.put("message","该用户名已存在，请重新输入！");
+        String idcard = JsonUtil.getStringParam(json, "idcard");
+        String username = JsonUtil.getStringParam(json, "username");
+        TSysUser tSysUserExist = tSysUserMapper.selectByUsername(username);
+        if (tSysUserExist != null) {
+            result.put("code", 445);
+            result.put("status", "error");
+            result.put("message", "该用户名已存在，请重新输入！");
             return result;
         }
         TSysUser tSysUser = new TSysUser();
-        String pkUserId = IDUtils.currentTimeMillis();
+        String pkUserId = IDUtils.getUUID();
         tSysUser.setPkUserId(pkUserId);
-        String fullName = JsonUtil.getStringParam(json,"fullName");
-        String email = JsonUtil.getStringParam(json,"email");
-        String tel = JsonUtil.getStringParam(json,"tel");
-        String enableStatus = JsonUtil.getStringParam(json,"enableStatus");
-        String address = JsonUtil.getStringParam(json,"address");
-        String workPosition = JsonUtil.getStringParam(json,"workPosition");
-        String workContent = JsonUtil.getStringParam(json,"workContent");
+        String fullName = JsonUtil.getStringParam(json, "fullName");
+        String email = JsonUtil.getStringParam(json, "email");
+        String tel = JsonUtil.getStringParam(json, "tel");
+        String enableStatus = JsonUtil.getStringParam(json, "enableStatus");
+        String address = JsonUtil.getStringParam(json, "address");
+        String workPosition = JsonUtil.getStringParam(json, "workPosition");
+        String workContent = JsonUtil.getStringParam(json, "workContent");
         tSysUser.setUsername(username);
         tSysUser.setIdcard(idcard);
         tSysUser.setFullName(fullName);
         tSysUser.setEmail(email);
         tSysUser.setTel(tel);
-        tSysUser.setEnableStatus(enableStatus);
+        if(StringUtil.isNotEmptyAndNull(enableStatus)){
+            tSysUser.setEnableStatus(enableStatus);
+        }else{
+            tSysUser.setEnableStatus("0");
+        }
         tSysUser.setAddress(address);
         tSysUser.setWorkPosition(workPosition);
         tSysUser.setWorkContent(workContent);
         //加密
         //默认密码
         String password = "123456";
-        String passwordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(tSysUser.getUsername(),password);
+        String passwordMd5 = PasswordEncryptUtils.MyPasswordEncryptUtil(tSysUser.getUsername(), password);
         tSysUser.setPassword(passwordMd5);
         tSysUser.setCreateTime(new Date());
         tSysUser.setModifyTime(new Date());
         tSysUserMapper.insertSelective(tSysUser);
         //是否直接分配角色
-        String roleId = JsonUtil.getStringParam(json,"roleId");
+        String roleId = JsonUtil.getStringParam(json, "roleId");
         //是否直接分配部门
-        String deptId = JsonUtil.getStringParam(json,"deptId");
-        if(roleId == null && deptId == null){
-            result.put("code",201);
-            result.put("status","success");
-            result.put("message","添加用户成功,但暂未分配角色，无法使用！");
-        }else if(roleId == null && deptId != null) {
-            this.addDeptUserByDeptUser(pkUserId,deptId);
-            result.put("code",202);
-            result.put("status","success");
-            result.put("message","添加用户成功,分配部门成功，但暂未分配角色，无法使用！");
-        }else if(roleId != null && deptId == null) {
-            this.addUserRoleByUserRole(pkUserId,roleId);
-            result.put("code",203);
-            result.put("status","success");
-            result.put("message","添加用户与分配角色成功,暂未分配部门！");
-        }
-        else if(roleId != null && deptId != null) {
-            this.addUserRoleByUserRole(pkUserId,roleId);
-            this.addDeptUserByDeptUser(pkUserId,deptId);
-            result.put("code",200);
-            result.put("status","success");
-            result.put("message","添加用户、分配角色与分配部门成功！");
+        String deptId = JsonUtil.getStringParam(json, "deptId");
+        if (roleId == null && deptId == null) {
+            result.put("code", 201);
+            result.put("status", "success");
+            result.put("message", "添加用户成功,但暂未分配角色，无法使用！");
+        } else if (roleId == null && deptId != null) {
+            this.addDeptUserByDeptUser(pkUserId, deptId);
+            result.put("code", 202);
+            result.put("status", "success");
+            result.put("message", "添加用户成功,分配部门成功，但暂未分配角色，无法使用！");
+        } else if (roleId != null && deptId == null) {
+            this.addUserRoleByUserRole(pkUserId, roleId);
+            result.put("code", 203);
+            result.put("status", "success");
+            result.put("message", "添加用户与分配角色成功,暂未分配部门！");
+        } else if (roleId != null && deptId != null) {
+            this.addUserRoleByUserRole(pkUserId, roleId);
+            this.addDeptUserByDeptUser(pkUserId, deptId);
+            result.put("code", 200);
+            result.put("status", "success");
+            result.put("message", "添加用户、分配角色与分配部门成功！");
         }
         return result;
     }
@@ -251,53 +262,53 @@ public class TSysUserServiceImpl implements TSysUserService {
         JSONObject json = JSON.parseObject(param);
         TSysUser user = new TSysUser();
         //用户基本信息
-        String pkUserId = JsonUtil.getStringParam(json,"pkUserId");
+        String pkUserId = JsonUtil.getStringParam(json, "pkUserId");
         user.setPkUserId(pkUserId);
-        String username = JsonUtil.getStringParam(json,"username");
+        String username = JsonUtil.getStringParam(json, "username");
         user.setUsername(username);
-        String fkDeptId = JsonUtil.getStringParam(json,"fkDeptId");
-        String email = JsonUtil.getStringParam(json,"email");
+        String fkDeptId = JsonUtil.getStringParam(json, "fkDeptId");
+        String email = JsonUtil.getStringParam(json, "email");
         user.setEmail(email);
-        String tel = JsonUtil.getStringParam(json,"tel");
+        String tel = JsonUtil.getStringParam(json, "tel");
         user.setTel(tel);
-        String IDcard = JsonUtil.getStringParam(json,"idcard");
+        String IDcard = JsonUtil.getStringParam(json, "idcard");
         user.setIdcard(IDcard);
-        String fullName = JsonUtil.getStringParam(json,"fullName");
+        String fullName = JsonUtil.getStringParam(json, "fullName");
         user.setFullName(fullName);
-        String workPosition = JsonUtil.getStringParam(json,"workPosition");
+        String workPosition = JsonUtil.getStringParam(json, "workPosition");
         user.setWorkPosition(workPosition);
-        String workContent = JsonUtil.getStringParam(json,"workContent");
+        String workContent = JsonUtil.getStringParam(json, "workContent");
         user.setWorkContent(workContent);
-        String ip = JsonUtil.getStringParam(json,"ip");
+        String ip = JsonUtil.getStringParam(json, "ip");
         user.setIp(ip);
-        String address = JsonUtil.getStringParam(json,"address");
+        String address = JsonUtil.getStringParam(json, "address");
         user.setAddress(address);
-        String enableStatus = JsonUtil.getStringParam(json,"enableStatus");
+        String enableStatus = JsonUtil.getStringParam(json, "enableStatus");
         user.setEnableStatus(enableStatus);
         user.setModifyTime(new Date());
-        String fkRoleId = JsonUtil.getStringParam(json,"roleId");
+        String fkRoleId = JsonUtil.getStringParam(json, "roleId");
         //修改用户信息
-        if(fkRoleId != null && fkDeptId == null){
+        if (fkRoleId != null && fkDeptId == null) {
             tSysUserMapper.updateById(user);
             //删除原有角色
             tSysUserMapper.deleteUserRoleByUserId(pkUserId);
-            ObjectAsyncTask.addUserRoleByUserRole(pkUserId,fkRoleId);
+            ObjectAsyncTask.addUserRoleByUserRole(pkUserId, fkRoleId);
             return 2;
-        }else if(fkRoleId != null && fkDeptId != null){
+        } else if (fkRoleId != null && fkDeptId != null) {
             tSysUserMapper.updateById(user);
             //删除原有角色
             tSysUserMapper.deleteUserRoleByUserId(pkUserId);
-            ObjectAsyncTask.addUserRoleByUserRole(pkUserId,fkRoleId);
+            ObjectAsyncTask.addUserRoleByUserRole(pkUserId, fkRoleId);
             //删除原有部门信息
             tSysDeptService.deleteDeptUserByUserId(pkUserId);
-            ObjectAsyncTask.addDeptUserByDeptUser(pkUserId,fkDeptId);
+            ObjectAsyncTask.addDeptUserByDeptUser(pkUserId, fkDeptId);
             return 3;
-        }else if(fkRoleId == null && fkDeptId != null){
+        } else if (fkRoleId == null && fkDeptId != null) {
             //删除原有部门信息
             tSysDeptService.deleteDeptUserByUserId(pkUserId);
-            ObjectAsyncTask.addDeptUserByDeptUser(pkUserId,fkDeptId);
+            ObjectAsyncTask.addDeptUserByDeptUser(pkUserId, fkDeptId);
             return 2;
-        }else{
+        } else {
             return 1;
         }
     }
@@ -310,9 +321,9 @@ public class TSysUserServiceImpl implements TSysUserService {
     @Override
     public CommonResult tSysUserDel(String param) {
         JSONObject jsonObject = JSON.parseObject(param);
-        String idStr=String.valueOf(jsonObject.get("pk_id"));
-        if("1597387976992".equals(idStr)){
-            return new CommonResult(445,"error","超级管理员不可删除!",null);
+        String idStr = String.valueOf(jsonObject.get("pk_id"));
+        if ("1597387976992".equals(idStr)) {
+            return new CommonResult(445, "error", "超级管理员不可删除!", null);
         }
         //删除用户表里的用户
         int i = tSysUserService.deleteById(idStr);
@@ -320,10 +331,10 @@ public class TSysUserServiceImpl implements TSysUserService {
         int j = tSysUserService.deleteUserRoleByUserId(idStr);
         //删除用户角色表里的用户
         int k = tSysDeptService.deleteDeptUserByUserId(idStr);
-        if(i > 0){
-            return new CommonResult(200,"success","数据删除成功!",null);
-        }else {
-            return new CommonResult(444,"error","数据删除失败!",null);
+        if (i > 0) {
+            return new CommonResult(200, "success", "数据删除成功!", null);
+        } else {
+            return new CommonResult(444, "error", "数据删除失败!", null);
         }
     }
 
@@ -334,6 +345,7 @@ public class TSysUserServiceImpl implements TSysUserService {
         deptUser.setFk_dept_id(deptId);
         return tSysDeptMapper.addDeptUserByDeptUser(deptUser);
     }
+
     public int addUserRoleByUserRole(String pkUserId, String roleId) {
         ReUserRole userRole = new ReUserRole();
         userRole.setPk_userRole_id(IDUtils.getUUID());
