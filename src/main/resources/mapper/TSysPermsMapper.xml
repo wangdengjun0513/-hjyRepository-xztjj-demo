@@ -41,10 +41,10 @@
                 and menu_type = #{menuType,jdbcType=VARCHAR}
             </if>
             <if test="createTime != null">
-                and create_time = #{createTime,jdbcType=DATE}
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
             </if>
             <if test="modifyTime != null">
-                and modify_time = #{modifyTime,jdbcType=DATE}
+                and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
             </if>
             <if test="modifyUsername != null and modifyUsername != ''">
                 and modify_username = #{modifyUsername,jdbcType=VARCHAR}
@@ -110,10 +110,10 @@
                 #{menuType,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
-                #{createTime,jdbcType=DATE},
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="modifyTime != null">
-                #{modifyTime,jdbcType=DATE},
+                #{modifyTime,jdbcType=TIMESTAMP},
             </if>
             <if test="modifyUsername != null and modifyUsername != ''">
                 #{modifyUsername,jdbcType=VARCHAR},
@@ -144,10 +144,10 @@
                 menu_type = #{menuType,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
-                create_time = #{createTime,jdbcType=DATE},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="modifyTime != null">
-                modify_time = #{modifyTime,jdbcType=DATE},
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             </if>
             <if test="modifyUsername != null and modifyUsername != ''">
                 modify_username = #{modifyUsername,jdbcType=VARCHAR},

@@ -67,13 +67,13 @@
                 #{roleDesc,jdbcType=VARCHAR},
             </if>
             <if test="createDate != null">
-                #{createDate,jdbcType=DATE},
+                #{createDate,jdbcType=TIMESTAMP},
             </if>
             <if test="enableStatus != null">
                 #{enableStatus,jdbcType=INTEGER},
             </if>
             <if test="modifyTime != null">
-                #{modifyTime,jdbcType=DATE},
+                #{modifyTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -134,13 +134,13 @@
                 role_desc = #{roleDesc,jdbcType=VARCHAR},
             </if>
             <if test="createDate != null">
-                create_date = #{createDate,jdbcType=DATE},
+                create_date = #{createDate,jdbcType=TIMESTAMP},
             </if>
             <if test="enableStatus != null">
                 enable_status = #{enableStatus,jdbcType=INTEGER},
             </if>
             <if test="modifyTime != null">
-                modify_time = #{modifyTime,jdbcType=DATE},
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             </if>
         </set>
         where pk_role_id = #{pkRoleId,jdbcType=VARCHAR}

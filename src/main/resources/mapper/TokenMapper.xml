@@ -58,10 +58,10 @@
                 #{password,jdbcType=VARCHAR},
             </if>
             <if test="expireTime != null">
-                #{expireTime,jdbcType=DATE},
+                #{expireTime,jdbcType=TIMESTAMP},
             </if>
             <if test="updateTime != null">
-                #{updateTime,jdbcType=DATE},
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="fullName != null and fullName != ''">
                 #{fullName,jdbcType=VARCHAR},
@@ -99,10 +99,10 @@
                 fk_user_id = #{fkUserId,jdbcType=VARCHAR},
             </if>
             <if test="expireTime != null">
-                expire_time = #{expireTime,jdbcType=DATE},
+                expire_time = #{expireTime,jdbcType=TIMESTAMP},
             </if>
             <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=DATE},
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
         </set>
         where fk_user_id = #{fkUserId,jdbcType=VARCHAR}

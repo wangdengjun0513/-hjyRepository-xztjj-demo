@@ -24,7 +24,7 @@
                 operator_people = #{operatorPeople,jdbcType=VARCHAR},
             </if>
             <if test="operatorTime != null">
-                operator_time = #{operatorTime,jdbcType=DATE},
+                operator_time = #{operatorTime,jdbcType=TIMESTAMP},
             </if>
         </set>
         where pk_param_id = #{pkParamId,jdbcType=VARCHAR}

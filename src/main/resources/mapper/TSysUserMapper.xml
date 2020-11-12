@@ -162,7 +162,7 @@
                 password = #{password,jdbcType=VARCHAR},
             </if>
             <if test="lastLoginDate != null">
-                last_login_date = #{lastLoginDate,jdbcType=DATE},
+                last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
             </if>
             <if test="email != null">
                 email = #{email,jdbcType=VARCHAR},
@@ -174,13 +174,13 @@
                 enable_status = #{enableStatus,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
-                create_time = #{createTime,jdbcType=DATE},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="idcard != null">
                 idcard = #{idcard,jdbcType=VARCHAR},
             </if>
             <if test="modifyTime != null">
-                modify_time = #{modifyTime,jdbcType=DATE},
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             </if>
             <if test="fullName != null">
                 full_name = #{fullName,jdbcType=VARCHAR},
