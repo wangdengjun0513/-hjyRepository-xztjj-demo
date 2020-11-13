@@ -78,10 +78,6 @@ public interface TSysRoleService {
      */
     int addUserRole(String fk_role_id, String userIds);
     /**
-     * 批量添加用户角色
-     */
-    int addUserRoleByList(String fk_role_id, List<String> idList);
-    /**
      * 添加用户角色
      */
     int addUserRoleByUserRole(ReUserRole userRole);
