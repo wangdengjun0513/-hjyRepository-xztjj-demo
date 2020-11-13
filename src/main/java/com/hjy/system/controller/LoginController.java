@@ -112,7 +112,7 @@ public class LoginController {
     @GetMapping("/idtest")
     public CommonResult test(){
         //1--------
-        String id = IDUtils.currentTimeMillis();
+        String id = IDUtils.getUUID();
         return new CommonResult(200,"success","成功",id);
     }
 }

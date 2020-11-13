@@ -69,7 +69,7 @@ public class TSysUserServiceImpl implements TSysUserService {
      */
     @Override
     public int insert(TSysUser tSysUser) throws Exception {
-        tSysUser.setPkUserId(IDUtils.currentTimeMillis());
+        tSysUser.setPkUserId(IDUtils.getUUID());
         //加密
         //默认密码
         String password = "123456";
