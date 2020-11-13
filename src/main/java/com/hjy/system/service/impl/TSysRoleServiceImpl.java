@@ -29,8 +29,6 @@ import java.util.List;
 public class TSysRoleServiceImpl implements TSysRoleService {
     @Autowired
     private TSysRoleMapper tSysRoleMapper;
-    @Autowired
-    private TSysRoleService tSysRoleService;
 
     /**
      * 通过ID查询单条数据
@@ -53,7 +51,7 @@ public class TSysRoleServiceImpl implements TSysRoleService {
     @Override
     public void insert(TSysRole tSysRole) {
         //通过工具类IDUtils获取主键
-        String uuid= IDUtils.currentTimeMillis();
+        String uuid= IDUtils.getUUID();
         tSysRole.setPkRoleId(uuid);
         //设置创建时间和更改时间
         tSysRole.setCreateDate(new Date());
@@ -125,7 +123,7 @@ public class TSysRoleServiceImpl implements TSysRoleService {
         int i=0;
         for (String str : ids) {
             String fk_perms_id= str.replace("\"", "");
-            String pk_rolePerms_id = IDUtils.currentTimeMillis();
+            String pk_rolePerms_id = IDUtils.getUUID();
             i = tSysRoleMapper.addRoleMenu(pk_rolePerms_id,fk_role_id,fk_perms_id);
         }
         return i;
@@ -136,7 +134,7 @@ public class TSysRoleServiceImpl implements TSysRoleService {
         List<ReRolePerms> rolePermsList = new ArrayList<>();
         for (String s:idList){
             ReRolePerms rolePerms = new ReRolePerms();
-            rolePerms.setPk_rolePerms_id(IDUtils.currentTimeMillis());
+            rolePerms.setPk_rolePerms_id(IDUtils.getUUID());
             rolePerms.setFk_role_id(fk_role_id);
             rolePerms.setFk_perms_id(s);
             rolePermsList.add(rolePerms);
@@ -172,19 +170,18 @@ public class TSysRoleServiceImpl implements TSysRoleService {
         //普通逐条插入
         for (String str : ids) {
             String fk_user_id= str.replace("\"", "");
-            String pk_userRole_id = IDUtils.currentTimeMillis();
+            String pk_userRole_id = IDUtils.getUUID();
             i = tSysRoleMapper.addUserRole(pk_userRole_id,fk_user_id,fk_role_id);
         }
         return i;
     }
 
     @Transactional()
-    @Override
     public int addUserRoleByList(String fk_role_id, List<String> idList) {
         List<ReUserRole> userRoles = new ArrayList<>();
         for (String s:idList){
             ReUserRole userRole = new ReUserRole();
-            userRole.setPk_userRole_id(IDUtils.currentTimeMillis());
+            userRole.setPk_userRole_id(IDUtils.getUUID());
             userRole.setFk_user_id(s);
             userRole.setFk_role_id(fk_role_id);
             userRoles.add(userRole);
@@ -224,7 +221,7 @@ public class TSysRoleServiceImpl implements TSysRoleService {
         List<ReRolePerms> rolePermsList = new ArrayList<>();
         for (String s:idList){
             ReRolePerms rolePerms = new ReRolePerms();
-            rolePerms.setPk_rolePerms_id(IDUtils.currentTimeMillis());
+            rolePerms.setPk_rolePerms_id(IDUtils.getUUID());
             rolePerms.setFk_role_id(fk_role_id);
             rolePerms.setFk_perms_id(s);
             rolePermsList.add(rolePerms);
@@ -237,14 +234,16 @@ public class TSysRoleServiceImpl implements TSysRoleService {
     public CommonResult systemRoleAddUser(String parm) {
         JSONObject jsonObject = JSON.parseObject(parm);
         String fk_role_id=String.valueOf(jsonObject.get("fk_role_id"));
-        JSONArray jsonArray = jsonObject.getJSONArray("ids");
-        String userIdsStr = jsonArray.toString();
-        List<String> idList = JSONArray.parseArray(userIdsStr,String.class);
         //删除原有的用户角色
-        int i = tSysRoleService.deleteUserRoleByRoleId(fk_role_id);
-        //添加用户角色
-        int j = tSysRoleService.addUserRoleByList(fk_role_id,idList);
-        if(i>0 && j>0){
+        int i = tSysRoleMapper.deleteUserRoleByRoleId(fk_role_id);
+        JSONArray jsonArray = jsonObject.getJSONArray("ids");
+        if(jsonArray != null){
+            String userIdsStr = jsonArray.toString();
+            List<String> idList = JSONArray.parseArray(userIdsStr,String.class);
+            //添加用户角色
+            int j = this.addUserRoleByList(fk_role_id,idList);
+        }
+        if(i>0){
             return new CommonResult(200,"success","角色添加用户成功!",null);
         }else {
             return new CommonResult(444,"error","角色添加用户失败!",null);
@@ -260,11 +259,11 @@ public class TSysRoleServiceImpl implements TSysRoleService {
             return new CommonResult(445,"error","超级管理员和普通用户不可删除!",null);
         }
         //删除角色表里的数据
-        int i = tSysRoleService.deleteById(idStr);
+        int i = tSysRoleMapper.deleteById(idStr);
         //删除用户角色表里的数据
-        int j = tSysRoleService.deleteUserRoleByRoleId(idStr);
+        int j = tSysRoleMapper.deleteUserRoleByRoleId(idStr);
         //删除角色权限表里的数据
-        int k = tSysRoleService.deleteRolePermsByRoleId(idStr);
+        int k = tSysRoleMapper.deleteRolePermsByRoleId(idStr);
         if(i > 0 && j >= 0 && k > 0){
             return new CommonResult(200,"success","角色删除成功!",null);
         }else {

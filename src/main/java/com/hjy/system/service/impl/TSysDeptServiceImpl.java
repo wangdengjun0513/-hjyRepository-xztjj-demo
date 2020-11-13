@@ -48,7 +48,7 @@ public class TSysDeptServiceImpl implements TSysDeptService {
     @Transactional()
     @Override
     public int insert(TSysDept tSysDept) throws Exception {
-        tSysDept.setPkDeptId(IDUtils.currentTimeMillis());
+        tSysDept.setPkDeptId(IDUtils.getUUID());
         tSysDept.setCreateTime(new Date());
         tSysDept.setModifyTime(new Date());
         return tSysDeptMapper.insertSelective(tSysDept);
@@ -123,7 +123,7 @@ public class TSysDeptServiceImpl implements TSysDeptService {
         List<ReDeptUser> deptUsers = new ArrayList<>();
         for (String s:idList){
             ReDeptUser deptUser = new ReDeptUser();
-            deptUser.setPk_deptUser_id(IDUtils.currentTimeMillis());
+            deptUser.setPk_deptUser_id(IDUtils.getUUID());
             deptUser.setFk_user_id(s);
             deptUser.setFk_dept_id(fk_dept_id);
             deptUsers.add(deptUser);

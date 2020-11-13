@@ -30,7 +30,7 @@ public class ObjectAsyncTask {
 
     public static void addUserRoleByUserRole(String pkUserId, String roleId) {
         ReUserRole userRole = new ReUserRole();
-        userRole.setPk_userRole_id(IDUtils.currentTimeMillis());
+        userRole.setPk_userRole_id(IDUtils.getUUID());
         userRole.setFk_user_id(pkUserId);
         userRole.setFk_role_id(roleId);
         ntClient.tSysUserService.addUserRoleByUserRole(userRole);
@@ -51,7 +51,7 @@ public class ObjectAsyncTask {
 
     public static void addDeptUserByDeptUser(String pkUserId, String deptId) {
         ReDeptUser deptUser = new ReDeptUser();
-        deptUser.setPk_deptUser_id(IDUtils.currentTimeMillis());
+        deptUser.setPk_deptUser_id(IDUtils.getUUID());
         deptUser.setFk_user_id(pkUserId);
         deptUser.setFk_dept_id(deptId);
         ntClient.tSysDeptService.addDeptUserByDeptUser(deptUser);

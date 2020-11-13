@@ -224,7 +224,7 @@ public class TSysUserController {
         String fk_user_id=String.valueOf(json.get("fk_user_id"));
         String fk_role_id=String.valueOf(json.get("fk_role_id"));
         ReUserRole userRole  = new ReUserRole();
-        userRole.setPk_userRole_id(IDUtils.currentTimeMillis());
+        userRole.setPk_userRole_id(IDUtils.getUUID());
         userRole.setFk_user_id(fk_user_id);
         userRole.setFk_role_id(fk_role_id);
         try {

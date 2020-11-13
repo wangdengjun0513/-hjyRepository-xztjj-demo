@@ -43,11 +43,7 @@ public class TSysUserServiceImpl implements TSysUserService {
     @Autowired
     private TSysUserMapper tSysUserMapper;
     @Autowired
-    private TSysUserService tSysUserService;
-    @Autowired
     private TSysRoleMapper tSysRoleMapper;
-    @Autowired
-    private TSysDeptService tSysDeptService;
     @Autowired
     private TSysDeptMapper tSysDeptMapper;
 
@@ -69,7 +65,7 @@ public class TSysUserServiceImpl implements TSysUserService {
      */
     @Override
     public int insert(TSysUser tSysUser) throws Exception {
-        tSysUser.setPkUserId(IDUtils.currentTimeMillis());
+        tSysUser.setPkUserId(IDUtils.getUUID());
         //加密
         //默认密码
         String password = "123456";
@@ -300,12 +296,12 @@ public class TSysUserServiceImpl implements TSysUserService {
             tSysUserMapper.deleteUserRoleByUserId(pkUserId);
             ObjectAsyncTask.addUserRoleByUserRole(pkUserId, fkRoleId);
             //删除原有部门信息
-            tSysDeptService.deleteDeptUserByUserId(pkUserId);
+            tSysDeptMapper.deleteDeptUserByUserId(pkUserId);
             ObjectAsyncTask.addDeptUserByDeptUser(pkUserId, fkDeptId);
             return 3;
         } else if (fkRoleId == null && fkDeptId != null) {
             //删除原有部门信息
-            tSysDeptService.deleteDeptUserByUserId(pkUserId);
+            tSysDeptMapper.deleteDeptUserByUserId(pkUserId);
             ObjectAsyncTask.addDeptUserByDeptUser(pkUserId, fkDeptId);
             return 2;
         } else {
@@ -326,11 +322,11 @@ public class TSysUserServiceImpl implements TSysUserService {
             return new CommonResult(445, "error", "超级管理员不可删除!", null);
         }
         //删除用户表里的用户
-        int i = tSysUserService.deleteById(idStr);
+        int i = tSysUserMapper.deleteById(idStr);
         //删除用户角色表里的用户
-        int j = tSysUserService.deleteUserRoleByUserId(idStr);
+        int j = tSysUserMapper.deleteUserRoleByUserId(idStr);
         //删除用户角色表里的用户
-        int k = tSysDeptService.deleteDeptUserByUserId(idStr);
+        int k = tSysDeptMapper.deleteDeptUserByUserId(idStr);
         if (i > 0) {
             return new CommonResult(200, "success", "数据删除成功!", null);
         } else {

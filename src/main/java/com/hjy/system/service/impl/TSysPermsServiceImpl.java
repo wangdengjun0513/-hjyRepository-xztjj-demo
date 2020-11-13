@@ -51,7 +51,7 @@ public class TSysPermsServiceImpl implements TSysPermsService {
     @Transactional()
     @Override
     public int insert(TSysPerms tSysPerms) {
-        tSysPerms.setPkPermsId(IDUtils.currentTimeMillis());
+        tSysPerms.setPkPermsId(IDUtils.getUUID());
         tSysPerms.setCreateTime(new Date());
         tSysPerms.setModifyTime(new Date());
         return tSysPermsMapper.insertSelective(tSysPerms);
