@@ -118,7 +118,7 @@ public class TNewsServiceImpl implements TNewsService {
         String newsTypeSe = JsonUtil.getStringParam(json, "newsType");
         TNews tNews = new TNews();
         tNews.setNewsTitle(newsTitle);
-        if (newsType == 1) {
+        if (newsType == 1 || newsType == 4) {
             tNews.setNewsType(newsType);
         } else if (StringUtil.isNotEmptyAndNull(newsTypeSe)) {
             tNews.setNewsType(Integer.parseInt(newsTypeSe));

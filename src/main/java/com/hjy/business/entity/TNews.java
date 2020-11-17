@@ -36,7 +36,7 @@ public class TNews implements Serializable {
      */
     private int newsStatus;
     /**
-     * 新闻类型 1普通新闻2党内行业新闻3公司党建动态
+     * 新闻类型 1普通新闻2党内行业新闻3公司党建动态4成功案例
      */
     private int newsType;
     /**
