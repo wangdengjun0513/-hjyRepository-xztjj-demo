@@ -117,7 +117,7 @@ public class TParBuiNewsController {
     @PostMapping("/business/parbuinews/list")
     public CommonResult tNewsList(@RequestBody String param) throws FebsException {
         try {
-            return tNewsService.selectAllPage(param, 4);
+            return tNewsService.selectAllPage(param, 0);
         } catch (Exception e) {
             String message = "查询数据失败";
             log.error(message, e);
