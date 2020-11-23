@@ -52,4 +52,6 @@ public interface TNewsMapper {
      */
     List<TNews> selectAllPage(TNews tNews);
 
+    List<TNews> selectAllPage2(TNews tNews);
+
 }

@@ -54,4 +54,7 @@ public interface TNewsService {
      * @return
      */
     CommonResult selectAllPage(String param, Integer newsType);
+
+    CommonResult selectAllPage2(String param, Integer newsType);
+
 }

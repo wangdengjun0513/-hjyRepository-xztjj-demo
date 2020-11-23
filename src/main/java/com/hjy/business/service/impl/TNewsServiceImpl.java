@@ -142,4 +142,39 @@ public class TNewsServiceImpl implements TNewsService {
         return new CommonResult(200, "success", "查询数据成功!", jsonObject);
     }
 
+    @Override
+    public CommonResult selectAllPage2(String param, Integer newsType) {
+        JSONObject json = JSON.parseObject(param);
+        //实体数据
+        String pageNumStr = JsonUtil.getStringParam(json, "pageNum");
+        String pageSizeStr = JsonUtil.getStringParam(json, "pageSize");
+        String newsTitle = JsonUtil.getStringParam(json, "newsTitle");
+        String newsStatus = JsonUtil.getStringParam(json, "newsStatus");
+        String newsTypeSe = JsonUtil.getStringParam(json, "newsType");
+        TNews tNews = new TNews();
+        tNews.setNewsTitle(newsTitle);
+        if (newsType == 1 || newsType == 4) {
+            tNews.setNewsType(newsType);
+        } else if (StringUtil.isNotEmptyAndNull(newsTypeSe)) {
+            tNews.setNewsType(Integer.parseInt(newsTypeSe));
+        }
+        if (StringUtil.isNotEmptyAndNull(newsStatus)) {
+            tNews.setNewsStatus(Integer.parseInt(newsStatus));
+        }
+        //分页记录条数
+        int pageNum = 1;
+        int pageSize = 10;
+        if (pageNumStr != null) {
+            pageNum = Integer.parseInt(pageNumStr);
+        }
+        if (pageSizeStr != null) {
+            pageSize = Integer.parseInt(pageSizeStr);
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<TNews> tNewss = tNewsMapper.selectAllPage2(tNews);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("PageResult", PageUtils.getPageResult(new PageInfo<TNews>(tNewss)));
+        return new CommonResult(200, "success", "查询数据成功!", jsonObject);
+    }
+
 }
