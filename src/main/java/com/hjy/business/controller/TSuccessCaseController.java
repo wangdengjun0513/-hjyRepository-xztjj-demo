@@ -124,15 +124,15 @@ public class TSuccessCaseController {
         }
     }
 
-    @PostMapping("/business/case/list2")
-    public CommonResult tSuccessCaseList2(@RequestBody String param) throws FebsException {
-        try {
-            return tNewsService.selectAllPage2(param,4);
-        } catch (Exception e) {
-            String message = "查询数据失败";
-            log.error(message, e);
-            throw new FebsException(message);
-        }
-    }
+//    @PostMapping("/business/case/list2")
+//    public CommonResult tSuccessCaseList2(@RequestBody String param) throws FebsException {
+//        try {
+//            return tNewsService.selectAllPage2(param,4);
+//        } catch (Exception e) {
+//            String message = "查询数据失败";
+//            log.error(message, e);
+//            throw new FebsException(message);
+//        }
+//    }
 
 }
