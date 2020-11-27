@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hjy.business.dao.TNewsMapper;
 import com.hjy.business.entity.TNews;
+import com.hjy.business.entity.TNewsExcel;
 import com.hjy.business.service.TNewsService;
 import com.hjy.common.domin.CommonResult;
 import com.hjy.common.utils.IDUtils;
@@ -175,6 +176,12 @@ public class TNewsServiceImpl implements TNewsService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("PageResult", PageUtils.getPageResult(new PageInfo<TNews>(tNewss)));
         return new CommonResult(200, "success", "查询数据成功!", jsonObject);
+    }
+
+    @Override
+    public List<TNewsExcel> getTNewsExcelList() {
+        List<TNewsExcel> tNewsExcelList = tNewsMapper.getTNewsExcelList();
+        return tNewsExcelList;
     }
 
 }

@@ -42,6 +42,7 @@ public class ShiroConfig {
         filterMap.put("/login", "anon");
         filterMap.put("/", "anon");
         filterMap.put("/logout", "anon");
+        filterMap.put("/excel/**", "anon");
         filterMap.put("/upload/**", "anon");
         filterMap.put("/business/*/list", "anon");
         filterMap.put("/business/*/addPage", "anon");

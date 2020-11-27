@@ -1,6 +1,7 @@
 package com.hjy.business.dao;
 
 import com.hjy.business.entity.TNews;
+import com.hjy.business.entity.TNewsExcel;
 
 import java.util.List;
 
@@ -54,4 +55,5 @@ public interface TNewsMapper {
 
     List<TNews> selectAllPage2(TNews tNews);
 
+    List<TNewsExcel> getTNewsExcelList();
 }

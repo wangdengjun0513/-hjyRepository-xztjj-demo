@@ -1,9 +1,11 @@
 package com.hjy.business.service;
 
 import com.hjy.business.entity.TNews;
+import com.hjy.business.entity.TNewsExcel;
 import com.hjy.common.domin.CommonResult;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * (TNews)表服务接口
@@ -57,4 +59,5 @@ public interface TNewsService {
 
     CommonResult selectAllPage2(String param, Integer newsType);
 
+    List<TNewsExcel> getTNewsExcelList();
 }
