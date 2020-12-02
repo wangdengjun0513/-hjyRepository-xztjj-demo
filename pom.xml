@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lc</groupId>
-    <artifactId>hjy-website</artifactId>
+    <artifactId>xztjj-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hjy-website</name>
+    <name>xztjj-demo</name>
     <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
