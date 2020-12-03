@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjy.sjzyml.dao.TDataMapper">
+
+    <!--查询单个-->
+    <select id="selectByPkId" resultType="com.hjy.sjzyml.entity.TData">
+        select
+          pk_data_id, xxzybm, xxzymc, sjx, dwfl, bq, mxdx, dwtymc, xzjb, sjly, sjcjtj, zygxfw, zygxfs, zyaqjb, sjkmc, zycswz, zyccwz, zrccfs, sjcjsj
+        from xztjj_demo.t_data
+        where pk_data_id = #{pkDataId}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectAllPage" resultType="com.hjy.sjzyml.entity.TData">
+        select * from xztjj_demo.t_data
+        where 1= 1
+<!--        <if test="mlmc != null and mlmc != ''">-->
+<!--            and mlmc = #{mlmc}-->
+<!--        </if>-->
+<!--        <if test="mllx != null and mllx != ''">-->
+<!--            and mllx = #{mllx}-->
+<!--        </if>-->
+<!--        <if test="ssbm != null and ssbm != ''">-->
+<!--            and ssbm = #{ssbm}-->
+<!--        </if>-->
+    </select>
+
+    <insert id="insertSelective">
+        insert into t_data
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="pkDataId != null and pkDataId != ''">
+                pk_data_id,
+            </if>
+            <if test="xxzybm != null and xxzybm != ''">
+                xxzybm,
+            </if>
+            <if test="xxzymc != null and xxzymc != ''">
+                xxzymc,
+            </if>
+            <if test="sjx != null">
+                sjx,
+            </if>
+            <if test="dwfl != null and dwfl != ''">
+                dwfl,
+            </if>
+            <if test="bq != null and bq != ''">
+                bq,
+            </if>
+            <if test="mxdx != null and mxdx != ''">
+                mxdx,
+            </if>
+            <if test="dwtymc != null">
+                dwtymc,
+            </if>
+            <if test="xzjb != null and xzjb != ''">
+                xzjb,
+            </if>
+            <if test="sjly != null">
+                sjly,
+            </if>
+            <if test="sjcjtj != null and sjcjtj != ''">
+                sjcjtj,
+            </if>
+            <if test="zygxfw != null and zygxfw != ''">
+                zygxfw,
+            </if>
+            <if test="zygxfs != null and zygxfs != ''">
+                zygxfs,
+            </if>
+            <if test="zyaqjb != null and zyaqjb != ''">
+                zyaqjb,
+            </if>
+            <if test="sjkmc != null and sjkmc != ''">
+                sjkmc,
+            </if>
+            <if test="zycswz != null and zycswz != ''">
+                zycswz,
+            </if>
+            <if test="zyccwz != null and zyccwz != ''">
+                zyccwz,
+            </if>
+            <if test="zrccfs != null and zrccfs != ''">
+                zrccfs,
+            </if>
+            <if test="sjcjsj != null">
+                sjcjsj,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="pkDataId != null and pkDataId != ''">
+                #{pkDataId},
+            </if>
+            <if test="xxzybm != null and xxzybm != ''">
+                #{xxzybm},
+            </if>
+            <if test="xxzymc != null and xxzymc != ''">
+                #{xxzymc},
+            </if>
+            <if test="sjx != null">
+                #{sjx},
+            </if>
+            <if test="dwfl != null and dwfl != ''">
+                #{dwfl},
+            </if>
+            <if test="bq != null and bq != ''">
+                #{bq},
+            </if>
+            <if test="mxdx != null and mxdx != ''">
+                #{mxdx},
+            </if>
+            <if test="dwtymc != null">
+                #{dwtymc},
+            </if>
+            <if test="xzjb != null and xzjb != ''">
+                #{xzjb},
+            </if>
+            <if test="sjly != null">
+                #{sjly},
+            </if>
+            <if test="sjcjtj != null and sjcjtj != ''">
+                #{sjcjtj},
+            </if>
+            <if test="zygxfw != null and zygxfw != ''">
+                #{zygxfw},
+            </if>
+            <if test="zygxfs != null and zygxfs != ''">
+                #{zygxfs},
+            </if>
+            <if test="zyaqjb != null and zyaqjb != ''">
+                #{zyaqjb},
+            </if>
+            <if test="sjkmc != null and sjkmc != ''">
+                #{sjkmc},
+            </if>
+            <if test="zycswz != null and zycswz != ''">
+                #{zycswz},
+            </if>
+            <if test="zyccwz != null and zyccwz != ''">
+                #{zyccwz},
+            </if>
+            <if test="zrccfs != null and zrccfs != ''">
+                #{zrccfs},
+            </if>
+            <if test="sjcjsj != null">
+                #{sjcjsj},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xztjj_demo.t_data
+        <set>
+            <if test="xxzybm != null and xxzybm != ''">
+                xxzybm = #{xxzybm},
+            </if>
+            <if test="xxzymc != null and xxzymc != ''">
+                xxzymc = #{xxzymc},
+            </if>
+            <if test="sjx != null and sjx != ''">
+                sjx = #{sjx},
+            </if>
+            <if test="dwfl != null and dwfl != ''">
+                dwfl = #{dwfl},
+            </if>
+            <if test="bq != null and bq != ''">
+                bq = #{bq},
+            </if>
+            <if test="mxdx != null and mxdx != ''">
+                mxdx = #{mxdx},
+            </if>
+            <if test="dwtymc != null and dwtymc != ''">
+                dwtymc = #{dwtymc},
+            </if>
+            <if test="xzjb != null and xzjb != ''">
+                xzjb = #{xzjb},
+            </if>
+            <if test="sjly != null and sjly != ''">
+                sjly = #{sjly},
+            </if>
+            <if test="sjcjtj != null and sjcjtj != ''">
+                sjcjtj = #{sjcjtj},
+            </if>
+            <if test="zygxfw != null and zygxfw != ''">
+                zygxfw = #{zygxfw},
+            </if>
+            <if test="zygxfs != null and zygxfs != ''">
+                zygxfs = #{zygxfs},
+            </if>
+            <if test="zyaqjb != null and zyaqjb != ''">
+                zyaqjb = #{zyaqjb},
+            </if>
+            <if test="sjkmc != null and sjkmc != ''">
+                sjkmc = #{sjkmc},
+            </if>
+            <if test="zycswz != null and zycswz != ''">
+                zycswz = #{zycswz},
+            </if>
+            <if test="zyccwz != null and zyccwz != ''">
+                zyccwz = #{zyccwz},
+            </if>
+            <if test="zrccfs != null and zrccfs != ''">
+                zrccfs = #{zrccfs},
+            </if>
+            <if test="sjcjsj != null">
+                sjcjsj = #{sjcjsj},
+            </if>
+        </set>
+        where pk_data_id = #{pkDataId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from xztjj_demo.t_data where pk_data_id = #{pkDataId}
+    </delete>
+
+</mapper>

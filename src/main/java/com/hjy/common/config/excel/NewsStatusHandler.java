@@ -1,9 +1,5 @@
 package com.hjy.common.config.excel;
 
-
-import com.alibaba.fastjson.util.TypeUtils;
-import com.hjy.business.entity.NewsStatus;
-
 import java.util.Objects;
 
 /**
@@ -17,7 +13,8 @@ public class NewsStatusHandler implements ExportTypeHandler {
         if (Objects.isNull(type)) {
             return "";
         }
-        return NewsStatus.findByHeaven(TypeUtils.castToInt(type)).getDesc();
+//        return NewsStatus.findByHeaven(TypeUtils.castToInt(type)).getDesc();
+        return null;
     }
 
     @Override
@@ -25,7 +22,8 @@ public class NewsStatusHandler implements ExportTypeHandler {
         if (Objects.isNull(desc)) {
             return 0;
         }
-        return NewsStatus.findByDesc(TypeUtils.castToString(desc)).getNewsStatus();
+//        return NewsStatus.findByDesc(TypeUtils.castToString(desc)).getNewsStatus();
+        return null;
     }
 }
 

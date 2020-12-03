@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjy.sjzyml.dao.TCatalogMapper">
+
+    <!--查询单个-->
+    <select id="selectByPkId" resultType="com.hjy.sjzyml.entity.TCatalog">
+        select * from xztjj_demo.t_catalog
+        where pk_catalog_id = #{pkCatalogId}
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectAllPage" resultType="com.hjy.sjzyml.entity.TCatalog">
+        select * from xztjj_demo.t_catalog
+        where 1= 1
+        <if test="mlmc != null and mlmc != ''">
+            and mlmc = #{mlmc}
+        </if>
+        <if test="mllx != null and mllx != ''">
+            and mllx = #{mllx}
+        </if>
+        <if test="ssbm != null and ssbm != ''">
+            and ssbm = #{ssbm}
+        </if>
+    </select>
+    <insert id="insertSelective">
+        insert into t_catalog
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="pkCatalogId != null and pkCatalogId != ''">
+                pk_catalog_id,
+            </if>
+            <if test="mlmc != null and mlmc != ''">
+                mlmc,
+            </if>
+            <if test="sjx != null and sjx != ''">
+                sjx,
+            </if>
+            <if test="mllx != null">
+                mllx,
+            </if>
+            <if test="mlbm != null and mlbm != ''">
+                mlbm,
+            </if>
+            <if test="mlbqs != null and mlbqs != ''">
+                mlbqs,
+            </if>
+            <if test="zrr != null and zrr != ''">
+                zrr,
+            </if>
+            <if test="sfkxz != null">
+                sfkxz,
+            </if>
+            <if test="sfkll != null and sfkll != ''">
+                sfkll,
+            </if>
+            <if test="sfgx != null">
+                sfgx,
+            </if>
+            <if test="sfkf != null and sfkf != ''">
+                sfkf,
+            </if>
+            <if test="gxbmfw != null and gxbmfw != ''">
+                gxbmfw,
+            </if>
+            <if test="sjmlms != null and sjmlms != ''">
+                sjmlms,
+            </if>
+            <if test="ssbm != null and ssbm != ''">
+                ssbm,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="pkCatalogId != null and pkCatalogId != ''">
+                #{pkCatalogId},
+            </if>
+            <if test="mlmc != null and mlmc != ''">
+                #{mlmc},
+            </if>
+            <if test="sjx != null and sjx != ''">
+                #{sjx},
+            </if>
+            <if test="mllx != null">
+                #{mllx},
+            </if>
+            <if test="mlbm != null and mlbm != ''">
+                #{mlbm},
+            </if>
+            <if test="mlbqs != null and mlbqs != ''">
+                #{mlbqs},
+            </if>
+            <if test="zrr != null and zrr != ''">
+                #{zrr},
+            </if>
+            <if test="sfkxz != null">
+                #{sfkxz},
+            </if>
+            <if test="sfkll != null and sfkll != ''">
+                #{sfkll},
+            </if>
+            <if test="sfgx != null">
+                #{sfgx},
+            </if>
+            <if test="sfkf != null and sfkf != ''">
+                #{sfkf},
+            </if>
+            <if test="gxbmfw != null and gxbmfw != ''">
+                #{gxbmfw},
+            </if>
+            <if test="sjmlms != null and sjmlms != ''">
+                #{sjmlms},
+            </if>
+            <if test="ssbm != null and ssbm != ''">
+                #{ssbm},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xztjj_demo.t_catalog
+        <set>
+            <if test="mlmc != null and mlmc != ''">
+                mlmc = #{mlmc},
+            </if>
+            <if test="sjx != null and sjx != ''">
+                sjx = #{sjx},
+            </if>
+            <if test="mllx != null and mllx != ''">
+                mllx = #{mllx},
+            </if>
+            <if test="mlbm != null and mlbm != ''">
+                mlbm = #{mlbm},
+            </if>
+            <if test="mlbqs != null and mlbqs != ''">
+                mlbqs = #{mlbqs},
+            </if>
+            <if test="zrr != null and zrr != ''">
+                zrr = #{zrr},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="sfkxz != null">
+                sfkxz = #{sfkxz},
+            </if>
+            <if test="sfkll != null">
+                sfkll = #{sfkll},
+            </if>
+            <if test="sfgx != null">
+                sfgx = #{sfgx},
+            </if>
+            <if test="sfkf != null">
+                sfkf = #{sfkf},
+            </if>
+            <if test="gxbmfw != null and gxbmfw != ''">
+                gxbmfw = #{gxbmfw},
+            </if>
+            <if test="sjmlms != null and sjmlms != ''">
+                sjmlms = #{sjmlms},
+            </if>
+            <if test="ssbm != null and ssbm != ''">
+                ssbm = #{ssbm},
+            </if>
+        </set>
+        where pk_catalog_id = #{pkCatalogId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from xztjj_demo.t_catalog where pk_catalog_id = #{pkCatalogId}
+    </delete>
+
+</mapper>

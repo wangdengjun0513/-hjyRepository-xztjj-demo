@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjy.sjzyml.dao.DDataRecordMapper">
+
+    <resultMap type="com.hjy.sjzyml.entity.DDataRecord" id="dDataRecordMap">
+        <result property="pkDatarecordId" column="pk_datarecord_id" jdbcType="VARCHAR"/>
+        <result property="fkDataId" column="fk_data_id" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updatePeople" column="update_people" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="dDataRecordMap">
+        select
+          pk_datarecord_id, fk_data_id, update_time, update_people
+        from xztjj_demo.d_data_record
+        where pk_datarecord_id = #{pkDatarecordId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="dDataRecordMap">
+        select
+          pk_datarecord_id, fk_data_id, update_time, update_people
+        from xztjj_demo.d_data_record
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="dDataRecordMap">
+        select
+        pk_datarecord_id, fk_data_id, update_time, update_people
+        from xztjj_demo.d_data_record
+        <where>
+            <if test="pkDatarecordId != null and pkDatarecordId != ''">
+                and pk_datarecord_id = #{pkDatarecordId}
+            </if>
+            <if test="fkDataId != null and fkDataId != ''">
+                and fk_data_id = #{fkDataId}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="updatePeople != null">
+                and update_people = #{updatePeople}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="pkDatarecordId" useGeneratedKeys="true">
+        insert into xztjj_demo.d_data_record(fk_data_id, update_time, update_people)
+        values (#{fkDataId}, #{updateTime}, #{updatePeople})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="pkDatarecordId" useGeneratedKeys="true">
+        insert into xztjj_demo.d_data_record(fk_data_id, update_time, update_people)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.fkDataId}, #{entity.updateTime}, #{entity.updatePeople})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="pkDatarecordId" useGeneratedKeys="true">
+        insert into xztjj_demo.d_data_record(fk_data_id, update_time, update_people)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.fkDataId}, #{entity.updateTime}, #{entity.updatePeople})
+        </foreach>
+        on duplicate key update
+        fk_data_id = values(fk_data_id) , update_time = values(update_time) , update_people = values(update_people)
+    </insert>
+    <insert id="insertSelective">
+        insert into d_data_record
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="pkDatarecordId != null and pkDatarecordId != ''">
+                pk_datarecord_id,
+            </if>
+            <if test="fkDataId != null and fkDataId != ''">
+                fk_data_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="pkDatarecordId != null and pkDatarecordId != ''">
+                #{pkDatarecordId},
+            </if>
+            <if test="fkDataId != null and fkDataId != ''">
+                #{fkDataId},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xztjj_demo.d_data_record
+        <set>
+            <if test="fkDataId != null and fkDataId != ''">
+                fk_data_id = #{fkDataId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople},
+            </if>
+        </set>
+        where pk_datarecord_id = #{pkDatarecordId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from xztjj_demo.d_data_record where pk_datarecord_id = #{pkDatarecordId}
+    </delete>
+
+</mapper>

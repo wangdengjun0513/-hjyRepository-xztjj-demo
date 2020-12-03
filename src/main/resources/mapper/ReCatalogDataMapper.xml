@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjy.sjzyml.dao.ReCatalogDataMapper">
+
+
+    <insert id="insertSelective" parameterType="com.hjy.sjzyml.entity.ReCatalogData">
+        insert into re_catalog_data
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="pkCatalogdataId != null and pkCatalogdataId != ''">
+                pk_catalogData_id,
+            </if>
+            <if test="fkCatalogId != null and fkCatalogId != ''">
+                fk_catalog_id,
+            </if>
+            <if test="fkDataId != null and fkDataId != ''">
+                fk_data_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="pkCatalogdataId != null and pkCatalogdataId != ''">
+                #{pkCatalogdataId},
+            </if>
+            <if test="fkCatalogId != null and fkCatalogId != ''">
+                #{fkCatalogId},
+            </if>
+            <if test="fkDataId != null and fkDataId != ''">
+                #{fkDataId},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xztjj_demo.re_catalog_data
+        <set>
+            <if test="fkCatalogId != null and fkCatalogId != ''">
+                fk_catalog_id = #{fkCatalogId},
+            </if>
+            <if test="fkDataId != null and fkDataId != ''">
+                fk_data_id = #{fkDataId},
+            </if>
+        </set>
+        where pk_catalogData_id = #{pkCatalogdataId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteByPkId">
+        delete from xztjj_demo.re_catalog_data where pk_catalogData_id = #{pkCatalogdataId}
+    </delete>
+
+</mapper>

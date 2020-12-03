@@ -2,7 +2,6 @@ package com.hjy.common.config.excel;
 
 
 import com.alibaba.fastjson.util.TypeUtils;
-import com.hjy.business.entity.NewsType;
 
 import java.util.Objects;
 
@@ -17,7 +16,9 @@ public class NewsTypeHandler implements ExportTypeHandler {
         if (Objects.isNull(type)) {
             return "";
         }
-        return NewsType.findByHeaven(TypeUtils.castToInt(type)).getDesc();
+//        return NewsType.findByHeaven(TypeUtils.castToInt(type)).getDesc();
+        return null;
+
     }
 
     @Override
@@ -25,7 +26,9 @@ public class NewsTypeHandler implements ExportTypeHandler {
         if (Objects.isNull(desc)) {
             return 0;
         }
-        return NewsType.findByDesc(TypeUtils.castToString(desc)).getNewsType();
+//        return NewsType.findByDesc(TypeUtils.castToString(desc)).getNewsType();
+        return null;
+
     }
 }
 
