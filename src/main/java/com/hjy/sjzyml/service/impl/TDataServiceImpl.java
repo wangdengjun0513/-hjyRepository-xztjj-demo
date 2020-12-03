@@ -41,7 +41,7 @@ public class TDataServiceImpl implements TDataService {
      */
     @Override
     public CommonResult insertPage() {
-        return new CommonResult(200,"success","",null);
+        return new CommonResult(200,"success","数据获取成功！",null);
 
     }
 
@@ -141,10 +141,12 @@ public class TDataServiceImpl implements TDataService {
         String pk_id = JsonUtil.getStringParam(json, "pk_id");
         TData tData = tDataMapper.selectByPkId(pk_id);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("PageResult",tData);
+        jsonObject.put("entity",tData);
+        //修改时间线数据
+        List<DDataRecord> updateRecords = dataRecordMapper.selectRecordByDataId(pk_id);
+        jsonObject.put("updateRecords",updateRecords);
         return new CommonResult(200,"success","查询数据成功!",jsonObject);
     }
-
     public PageResult selectAllPage(String param) {
         JSONObject json = JSON.parseObject(param);
         //实体数据
