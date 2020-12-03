@@ -1,0 +1,136 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.hjy.system.dao.TDictionaryMapper">-->
+
+<!--    &lt;!&ndash;通过主键查询单个&ndash;&gt;-->
+<!--    <select id="selectById" resultType="com.hjy.system.entity.TDictionary" parameterType="com.hjy.system.entity.TDictionary">-->
+<!--        select tb.* from t_dictionary tb-->
+<!--        where tb.pk_dic_id = #{pkDicId,jdbcType=VARCHAR}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;新增所有列&ndash;&gt;-->
+<!--    <insert id="insertSelective" parameterType="com.hjy.system.entity.TDictionary">-->
+<!--        insert into t_dictionary-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="pkDicId != null and pkDicId != ''">-->
+<!--                pk_dic_id,-->
+<!--            </if>-->
+<!--            <if test="dicParentId != null and dicParentId != ''">-->
+<!--                dic_parent_id,-->
+<!--            </if>-->
+<!--            <if test="dicCode != null and dicCode != ''">-->
+<!--                dic_code,-->
+<!--            </if>-->
+<!--            <if test="dicName != null and dicName != ''">-->
+<!--                dic_name,-->
+<!--            </if>-->
+<!--            <if test="dicType != null and dicType != ''">-->
+<!--                dic_type,-->
+<!--            </if>-->
+<!--            <if test="dicLevel != null ">-->
+<!--                dic_level,-->
+<!--            </if>-->
+<!--            <if test="dicSort != null ">-->
+<!--                dic_sort,-->
+<!--            </if>-->
+<!--            <if test="dicStatus != null">-->
+<!--                dic_status,-->
+<!--            </if>-->
+<!--            <if test="dicUpdateTime != null">-->
+<!--                dic_updatetime,-->
+<!--            </if>-->
+<!--            <if test="dicDesc != null and dicDesc != ''">-->
+<!--                dic_desc,-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="pkDicId != null and pkDicId != ''">-->
+<!--                #{pkDicId,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicParentId != null and dicParentId != ''">-->
+<!--                #{dicParentId,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicCode != null and dicCode != ''">-->
+<!--                #{dicCode,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicName != null and dicName != ''">-->
+<!--                #{dicName,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicType != null and dicType != ''">-->
+<!--                #{dicType,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicLevel != null ">-->
+<!--                #{dicLevel,jdbcType=TINYINT},-->
+<!--            </if>-->
+<!--            <if test="dicSort != null ">-->
+<!--                #{dicSort,jdbcType=INTEGER},-->
+<!--            </if>-->
+<!--            <if test="dicStatus != null ">-->
+<!--                #{dicStatus,jdbcType=TINYINT},-->
+<!--            </if>-->
+<!--            <if test="dicUpdateTime != null">-->
+<!--                #{dicUpdateTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="dicDesc != null and dicDesc != ''">-->
+<!--                #{dicDesc,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash;通过主键修改数据&ndash;&gt;-->
+<!--    <update id="updateById" parameterType="com.hjy.system.entity.TDictionary">-->
+<!--        update t_dictionary-->
+<!--        <set>-->
+<!--            <if test="dicCode != null and dicCode != ''">-->
+<!--                dic_code = #{dicCode,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicName != null and dicName != ''">-->
+<!--                dic_name = #{dicName,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicType != null and dicType != ''">-->
+<!--                dic_type = #{dicType,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="dicLevel != null">-->
+<!--                dic_level = #{dicLevel,jdbcType=TINYINT},-->
+<!--            </if>-->
+<!--            <if test="dicSort != null">-->
+<!--                dic_sort = #{dicSort,jdbcType=INTEGER},-->
+<!--            </if>-->
+<!--            <if test="dicStatus != null">-->
+<!--                dic_status = #{dicStatus,jdbcType=TINYINT},-->
+<!--            </if>-->
+<!--            <if test="dicUpdateTime != null">-->
+<!--                dic_updatetime = #{dicUpdateTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="dicDesc != null and dicDesc != ''">-->
+<!--                dic_desc = #{dicDesc,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where pk_dic_id = #{pkDicId,jdbcType=VARCHAR}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash;通过主键删除&ndash;&gt;-->
+<!--    <delete id="deleteById" parameterType="com.hjy.system.entity.TDictionary">-->
+<!--        delete from t_dictionary where pk_dic_id = #{pkDicId,jdbcType=VARCHAR}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash;查询所有行数据&ndash;&gt;-->
+<!--    <select id="selectAllPage" resultType="com.hjy.system.entity.TDictionary">-->
+<!--        select tb.* from t_dictionary tb-->
+<!--        <where>-->
+<!--        <if test="dicCode != null and dicCode != ''">-->
+<!--            and tb.dic_code like '%${dicCode}%'-->
+<!--        </if>-->
+<!--        <if test="dicName != null and dicName != ''">-->
+<!--            and tb.dic_name like '%${dicName}%'-->
+<!--        </if>-->
+<!--        <if test="dicType != null and dicType != ''">-->
+<!--            and tb.dic_type like '%${dicType}%'-->
+<!--        </if>-->
+<!--        <if test="dicStatus != null and dicStatus != ''">-->
+<!--            and tb.dic_status = #{dicStatus,jdbcType=TINYINT}-->
+<!--        </if>-->
+<!--        </where>-->
+<!--        order by tb.dic_sort desc-->
+<!--    </select>-->
+<!--</mapper>-->
